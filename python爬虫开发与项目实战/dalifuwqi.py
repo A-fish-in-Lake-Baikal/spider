@@ -1,17 +1,30 @@
-from urllib import request
+from urllib import request,error
 
-urls = 'https://www.baidu.com/s?wd=selenium'
-headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
-proxy_ip = '115.218.126.42:9000'
+urls = "http://www.cosplay0.com/"
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0'}
+proxy_ip = "124.205.155.150:9090"
+httphd = request.HTTPHandler(debuglevel=1)
+httpshd = request.HTTPSHandler(debuglevel=1)
 
 def use_proxy(proxy_addr,url):
-    proxy = request.ProxyHandler({'http':proxy_addr})
-    opener = request.build_opener(proxy,request.HTTPHandler)
-    request.install_opener(opener)
-    data = request.urlopen(url).read().decode('utf-8')
-    return data
+    try:
+        proxy = request.ProxyHandler({'http':proxy_addr})
+        # opener = request.build_opener(proxy,httpshd,httphd)
+        # request.install_opener(opener)
+        req = request.Request(url,headers=headers)
+        data = request.urlopen(req).read().decode('utf-8')
+        return data
+    except error.HTTPError as e:  # 通过HTTPError的子类处理‘连接不上服务器、远程URL不存在、无网络’等异常
+        if hasattr(e, "code"):
+            print(e.code)
+        if hasattr(e, "reason"):
+            print(e.reason)
+    except error.URLError as e:
+        print(e.reason)
+
+
 
 if __name__=='__main__':
     data = use_proxy(proxy_ip,urls)
+    # print(data)
     print(data)
-    print(len(data))
