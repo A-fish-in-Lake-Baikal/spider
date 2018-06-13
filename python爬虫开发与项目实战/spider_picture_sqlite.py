@@ -1,4 +1,4 @@
-from urllib import request
+from urllib import request,error
 import re
 import ssl
 import os
@@ -27,29 +27,43 @@ def getpic(link):
     return piclinks
 
 if __name__=='__main__':
-    print('爬虫开始')
+    print('开始爬行~~')
     conn = sqlite3.connect('test.db')
     c = conn.cursor()
     datatime = time.strftime('%Y-%m-%d-%H-%M', time.localtime(time.time()))
     urls = ['https://www.xitmi.com/tag/fuli/page{}'.format(str(i)) for i in range(1,6)]
     path = os.path.abspath('.')
+    x = 1
     for url in urls:
-        linklist = getlink(url)
-        for link in linklist:
-            sql2 = 'insert into page_url(pageurl,datatime) values(?,?)'
-            vla2 = (link[0], datatime)
-            c.execute(sql2, vla2)
-            with open(path+"//status.txt","a") as file:
-                file.write(link[0]+'\n')
-            print(link[0])
-            piclink = getpic(link[0])
-            for p in piclink:
-                sql1 = 'insert into picture_url(picurl,datatime) values (?,?)'
-                vla1 = (p[0], datatime)
-                c.execute(sql1, vla1)
-                with open(path + "//status.txt", "a") as file:
-                    file.write('\t'+p[0] + '\n')
-                print(p[0])
-    print('爬虫完成')
+        try:
+            linklist = getlink(url)
+            for link in linklist:
+
+                with open(path+"//status.txt","a") as file:
+                    file.write(link[0]+'\n')
+                # print(link[0])
+                try:
+                    piclink = getpic(link[0])
+                except error.URLError as e:
+                    # print(e.code)
+                    print(e.reason)
+                y = 1
+                for p in piclink:
+                    sql1 = 'insert into picture_url(picurl,datatime) values (?,?)'
+                    vla1 = (p[0], datatime)
+                    c.execute(sql1, vla1)
+                    with open(path + "//status.txt", "a") as file:
+                        file.write('\t'+'第%s个网页,第%s次爬取.链接为：%s' %(x,y,p[0])+ '\n')
+                    print('第%s个网页,第%s次爬取.链接为：%s' %(x,y,p[0]))
+                    y += 1
+                    # print(p[0])
+                x += 1
+                sql2 = 'insert into page_url(pageurl,datatime,count) values(?,?,?)'
+                vla2 = (link[0], datatime,y)
+                c.execute(sql2, vla2)
+        except error.URLError as e:
+            # print(e.code)
+            print(e.reason)
+    print('爬行结束~~')
     conn.commit()
     conn.close()
