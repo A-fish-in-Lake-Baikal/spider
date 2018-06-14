@@ -49,8 +49,8 @@ if __name__=='__main__':
                     print(e.reason)
                 y = 1
                 for p in piclink:
-                    sql1 = 'insert into picture_url(picurl,datatime) values (?,?)'
-                    vla1 = (p[0], datatime)
+                    sql1 = 'insert into picture_url(picurl,datatime,fatherid) values (?,?,?)'
+                    vla1 = (p[0], datatime,x)
                     c.execute(sql1, vla1)
                     with open(path + "//status.txt", "a") as file:
                         file.write('\t'+'第%s个网页,第%s次爬取.链接为：%s' %(x,y,p[0])+ '\n')
