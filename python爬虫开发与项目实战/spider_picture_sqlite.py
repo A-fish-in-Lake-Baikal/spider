@@ -35,18 +35,12 @@ if __name__=='__main__':
     path = os.path.abspath('.')
     x = 1
     for url in urls:
-        try:
-            linklist = getlink(url)
-            for link in linklist:
-
-                with open(path+"//status.txt","a") as file:
-                    file.write(link[0]+'\n')
+        linklist = getlink(url)
+        for link in linklist:
+            with open(path+"//status.txt","a") as file:
+                file.write(link[0]+'\n')
                 # print(link[0])
-                try:
-                    piclink = getpic(link[0])
-                except error.URLError as e:
-                    # print(e.code)
-                    print(e.reason)
+                piclink = getpic(link[0])
                 y = 1
                 for p in piclink:
                     sql1 = 'insert into picture_url(picurl,datatime,fatherid) values (?,?,?)'
@@ -61,9 +55,6 @@ if __name__=='__main__':
                 sql2 = 'insert into page_url(pageurl,datatime,count) values(?,?,?)'
                 vla2 = (link[0], datatime,y)
                 c.execute(sql2, vla2)
-        except error.URLError as e:
-            # print(e.code)
-            print(e.reason)
     print('爬行结束~~')
     conn.commit()
     conn.close()
