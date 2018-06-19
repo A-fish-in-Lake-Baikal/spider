@@ -12,6 +12,7 @@ def use_proxy(proxy_addr,url):
         # opener = request.build_opener(proxy,httpshd,httphd)
         # request.install_opener(opener)
         req = request.Request(url,headers=headers)
+
         data = request.urlopen(req).read().decode('utf-8')
         return data
     except error.HTTPError as e:  # 通过HTTPError的子类处理‘连接不上服务器、远程URL不存在、无网络’等异常

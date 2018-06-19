@@ -8,14 +8,18 @@ def geturl(url):
     data = pages.read().decode('utf-8')
     pat = '<div class="content">(.*?)</div>'
     contentlist = re.compile(pat,re.S).findall(data)
-    return contentlist
+    x=1
+    for content in contentlist:
+        keys = ["<span>","\n","</span>",":&quot;","<br/>"]
+        for key in keys:
+            content = content.replace(key,"")
+        x += 1
+        print('-' *200)
+        print(content)
 
 if __name__=='__main__':
     urls = ['https://www.qiushibaike.com/8hr/page/{}'.format(str(i)) for i in range(1,14)]
     for url in urls:
         print(url)
-        contentlist = geturl(url)
-        x = 1
-        for content in contentlist:
-            content = content.replace("\n","")
-            print(link)
+        geturl(url)
+
