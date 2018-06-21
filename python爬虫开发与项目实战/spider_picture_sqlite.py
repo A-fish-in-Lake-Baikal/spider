@@ -5,7 +5,9 @@ import os
 import sqlite3
 import time
 
+# 提取页面中的html链接
 def getlink(url):
+    # 浏览器头信息
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
     ssl._create_default_https_context = ssl._create_unverified_context
     file = request.Request(url,headers=headers)
@@ -15,6 +17,7 @@ def getlink(url):
     link = re.compile(pat).findall(data)
     link = list(set(link))
     return link
+# 提取每个URL中的图片地址
 def getpic(link):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -28,10 +31,10 @@ def getpic(link):
 
 if __name__=='__main__':
     print('开始爬行~~')
-    conn = sqlite3.connect('test.db')
-    c = conn.cursor()
+    conn = sqlite3.connect('test.db')  #创建数据库
+    c = conn.cursor()    #创建数据库对象
     datatime = time.strftime('%Y-%m-%d-%H-%M', time.localtime(time.time()))
-    urls = ['https://www.xitmi.com/tag/fuli/page{}'.format(str(i)) for i in range(1,6)]
+    urls = ['https://www.xitmi.com/tag/fuli/page{}'.format(str(i)) for i in range(1,6)]   #待解析的URL列表
     path = os.path.abspath('.')
     x = 1
     for url in urls:
