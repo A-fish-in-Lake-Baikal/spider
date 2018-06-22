@@ -10,7 +10,7 @@ def geturl(url):
     contentlist = re.compile(pat,re.S).findall(data)
     x=1
     for content in contentlist:
-        keys = ["<span>","\n","</span>",":&quot;","<br/>"]
+        keys = ["<span>","\n","</span>",":&quot;","<br/>","&amp"]
         for key in keys:
             content = content.replace(key,"")
         x += 1
