@@ -3,16 +3,21 @@ from bs4 import BeautifulSoup
 
 
 
-def geturls(url):
-    response = request.urlopen(url).read().decode('utf-8')
-    soup = BeautifulSoup(response,'html.parser')
+def geturls(url,proxy_hander):
+    opener = request.build_opener(proxy_hander)
+    response = opener.open(url)
+    print(response.read())
+    '''soup = BeautifulSoup(response,'html.parser')
     a_list = soup.findAll('a')
-    return a_list
+    return a_list'''
 
 if __name__=='__main__':
-    url = 'http://news.sina.com.cn/'
-    urls = geturls(url)
-    for newurl in urls:
+    proxy = request.ProxyHandler({"http" : "122.243.13.89:9000"})
+    # url = 'http://news.sina.com.cn/'
+    url = 'http://httpbin.org/get'
+    # urls = geturls(url,proxy_hander)
+    geturls(url,proxy)
+    '''for newurl in urls:
         if not newurl:
             continue
-        print(newurl.get('href'))
+        print(newurl.get('href'))'''
