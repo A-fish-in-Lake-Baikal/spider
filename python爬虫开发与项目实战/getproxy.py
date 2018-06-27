@@ -15,21 +15,28 @@ for url in urls:
     text = data.decode('utf-8')
 
     soup = BeautifulSoup(text,'html.parser')
+    # 找到存放数据的table
     parper = soup.find(class_="table table-bordered table-striped")
+    # 找到tr标签（列表）
     tr_list = parper.find_all('tr')
     # print(text)
     # print(parper)
-
+    # 打印出列表中每条tr
     for tr in tr_list:
         td_list = tr.find_all('td')
         print('第%s条' %i)
-        # print(td_list[0])
-        with open(r'./proxyip.txt','a') as f:
-            f.write(r'第%s条' %i+'\n')
+        # print(td_list)
+        #with open(r'./proxyip.txt','a') as f:
+            #f.write(r'第%s条' %i+'\n')
         for td in td_list:
-            print(td.text)
-            with open(r'./proxyip.txt','a') as file:
-                file.write('\t'+td.text+'\n' )
+            # 找出IP
+            if td.attrs['data-title']=='IP':
+                print(td.text)
+            # 找出端口
+            elif td.attrs['data-title']=='PORT':
+                print(td.text)
+        #     with open(r'./proxyip.txt','a') as file:
+        #         file.write('\t'+td.text+'\n' )
         i += 1
 
 '''try:
