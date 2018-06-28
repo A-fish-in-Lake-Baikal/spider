@@ -1,11 +1,13 @@
 from urllib import request
 from bs4 import BeautifulSoup
 import zlib
+import time
 
 urls = ['https://www.kuaidaili.com/free/inha/{}/'.format(str(i)) for i in range(1,2371)]
 i = 1
 for url in urls:
-    header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
+    header = {'Accept-Encoding': 'gzip, deflate, br',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
     # 添加头信息
     response = request.Request(url,headers=header)
     # 读取页面内容
@@ -38,7 +40,7 @@ for url in urls:
         #     with open(r'./proxyip.txt','a') as file:
         #         file.write('\t'+td.text+'\n' )
         i += 1
-
+        time.sleep(0.2)
 '''try:
     html = gzip.decompress(page).decode('gb18030')
     print(html)

@@ -12,7 +12,7 @@ def geturls(url,proxy_hander):
     return a_list'''
 
 if __name__=='__main__':
-    proxy = request.ProxyHandler({"http" : "http://115.223.232.196:9000"})
+    proxy = request.ProxyHandler({"http" : "http://119.7.81.39:4557"})
     # url = 'http://news.sina.com.cn/'
     url = 'http://httpbin.org/get'
     # urls = geturls(url,proxy_hander)
