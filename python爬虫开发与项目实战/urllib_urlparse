@@ -1,0 +1,4 @@
+from urllib.parse import urlparse
+
+result = urlparse("https://www.bilibili.com/video/av24652730/?p=8#count")
+print(result.path)
