@@ -2,6 +2,7 @@ import requests
 import re
 import lxml
 from bs4 import BeautifulSoup
+from multiprocessing import Pool
 from requests.exceptions import RequestException
 
 def get_one_page(url):
@@ -32,14 +33,24 @@ def parse_one_page(html):
     soup = BeautifulSoup(html,'lxml')
     dd = soup.find_all('dd')
     for d in dd:
-        i = d.find_all('i')
-        print(i)
+        serials = d.find_all(class_='board-index')
+        titles = d.find_all('a')
+        stars = d.find_all(class_='star')
+        releasetimes  = d.find_all(class_='releasetime')
+        integers = d.find_all(class_='integer')
+        fractions = d.find_all(class_='fraction')
+        for (serial,title,star,releasetime,integer,fraction) in zip(serials,titles,stars,releasetimes,integers,fractions):
+            print('*' *150)
+            print(serial.text,title['title'],star.text,releasetime.text,integer.text+fraction.text)
 
-def main():
-    url = 'http://maoyan.com/board/4?offset=0'
+def main(offset):
+    url = 'http://maoyan.com/board/4?offset='+str(offset)
     html = get_one_page(url)
     parse_one_page(html)
     # print(html)
 
 if __name__=='__main__':
-    main()
+    # for i in range(0,10):
+    #     main(i*10)
+        pool = Pool()
+        pool.map(main,[i*10 for i in range(10)])
