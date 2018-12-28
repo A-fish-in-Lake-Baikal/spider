@@ -33,7 +33,7 @@ if __name__=='__main__':
             print(link[0])
             piclink = getpic(link[0])
             for p in piclink:
-                request.urlretrieve(p[0],".\pic"+ r'\%s.jpg' % time.time())
+                request.urlretrieve(p[0],"E:\pic"+ r'/%s.jpg' % time.time())
                 with open(path + "//status.txt", "a") as file:
                     file.write('\t'+p[0] + '\n')
                 print(p[0])
