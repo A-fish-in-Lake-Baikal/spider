@@ -26,10 +26,6 @@ def get_one_page(url):
         return None
 
 def parse_one_page(html):
-    '''pattern = re.compile('<dd>.*?board-index.*?>(\d+)</li>.*?data-src="(.*?)".*?name"><a'
-                         +'.*?></a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>'
-                         +'.*?integer">(.*?)</li>.*?faction">(.*?)</li>.*?</dd>',re.S)
-    items = re.findall(pattern,html)'''
     soup = BeautifulSoup(html,'lxml')
     dd = soup.find_all('dd')
     for d in dd:

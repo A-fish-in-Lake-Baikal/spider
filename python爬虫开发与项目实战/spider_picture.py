@@ -3,8 +3,9 @@ import re
 import os
 import time
 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
 def getlink(url):
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
+    global headers
     file = request.Request(url,headers=headers)
     page = request.urlopen(file)
     data = str(page.read())
@@ -13,7 +14,7 @@ def getlink(url):
     link = list(set(link))
     return link
 def getpic(link):
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'}
+    global headers
     file1 = request.Request(link,headers=headers)
     page1 = request.urlopen(file1)
     data1 = str(page1.read())
@@ -23,7 +24,7 @@ def getpic(link):
     return piclinks
 
 if __name__=='__main__':
-    urls = ['https://www.xitmi.com/tag/fuli/page{}'.format(str(i)) for i in range(1,6)]
+    urls = ['https://www.xitmi.com/tag/fuli/page{}'.format(str(i)) for i in range(1,9)]
     path = os.path.abspath('.')
     for url in urls:
         linklist = getlink(url)

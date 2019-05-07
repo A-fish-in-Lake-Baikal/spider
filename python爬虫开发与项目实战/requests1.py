@@ -44,7 +44,7 @@ print(response.text)'''
 
 # 超時設置
 try:
-    response = requests.get(url,timeout=0.1)
+    response = requests.get(url,timeout=1)
     print(response.status_code)
 except ConnectionError:
     print('TimeOut')
