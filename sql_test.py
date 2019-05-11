@@ -9,7 +9,7 @@ def sqlexecute():
     conn = pymssql.connect('192.168.2.142','sa','test12#$%','PSCR103')
     cursor = conn.cursor()
 
-    sql = """select top 100 mf.ResourceID, sf.UniqueID, mf.FileID, mf.Path from 
+    sql = """select top 100 mf.ResourceID, sf.UniqueID, mf.FileID, mf.Path from
                     (select R.ID as ResourceID, F.UniqueID, F.ID as FileID, F.Path
                         from
                         PS_Resource R
@@ -19,7 +19,7 @@ def sqlexecute():
                         where
                         R.ResourceType = 3 and R.IsDeleted = 0 and RF.FileType = 1
                         and f.ID not in (select FileID from ImageAnalysisFace)) mf
-                        join 
+                        join
                         PS_ResourceFile rf on mf.FileID = rf.ParentFileID and rf.FileType=4
                         join 
                         PS_File sf on rf.FileID=sf.ID"""
